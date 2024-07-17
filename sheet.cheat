@@ -2,28 +2,39 @@
 
 ## [ GIT ]
 
-git diff --name-only master
+# git diff display line changes and file names
+git diff --stat develop
 
-git diff --stat master
+# git diff display only file names
+git diff --name-only develop
 
-git show
+# git display the stats of the changes in a commit
+git show --stat
 
 git rm --cached path/to/file
 
+# git list ignored files
 git status --ignored
 
-git branch --merged master | grep HP-1234
+# git search the branch if merged
+git branch --merged main | grep HP-1234
 
+# git list all the branches
 git branch -a
 
+# git auto stage files and commit with message (It will not stage new (untracked) files)
 git commit -am "message"
 
+# git --amend --no-edit
 git commit --amend --no-edit
 
+# git --amend with message
 git commit --amend -m "new message"
 
+# git clean / remove untracked files and directories
 git clean -df
 
+# git amend one liner
 git add . && gca! && ggpush --force
 
 ## Clearing Working Tree
