@@ -1,0 +1,94 @@
+% git, node, postgresql, xampp, tizen, mysql, bluetooth
+
+# [ GIT ]
+git diff --name-only master
+git diff --stat master
+git show
+git rm --cached path/to/file
+git status --ignored
+git branch --merged master | grep HP-1234
+git branch -a
+
+git commit -am "message"
+git commit --amend --no-edit
+git commit --amend -m "new message"
+
+git clean -df
+
+git add . && gca! && ggpush --force
+
+# Clearing Working Tree
+git reset --hard HEAD && git clean -fd  # nuke working tree
+git checkout -- .                       # discard unstaged changes
+git clean -fd                           # discard untracked files
+git reset --soft HEAD                   # soft reset
+git reset --soft HEAD^                  # undo commit (git reset HEAD~)
+git reset --mixed HEAD                  # mixed reset
+git reset --hard HEAD                   # hard reset
+
+# Clearing branches
+git remote prune origin --dry-run       # Show Locally Stored Remote Branches non-existent on the remote repo
+git remote prune origin                 # Clean-Up Locally Stored Remote Branches non-existent on the remote repo
+
+git branch --merged main | grep -v "\*" | xargs git branch -d    # Clean-Up Local Old Already Merged Branches
+
+# List unpushed commits https://bit.ly/3Jegpuy
+git log --branches --not --remotes
+
+# Handling Tags https://stackoverflow.com/a/28280404
+git tag -d <tagname>                  # delete the old tag locally
+git push origin :refs/tags/<tagname>  # delete the old tag remotely
+git tag <tagname> <commitId>          # make a new tag locally
+git push origin <tagname>             # push the new local tag to the remote
+
+# same as 'git checkout develop'
+git switch develop
+
+# same as 'git checkout -b new-branch'
+git switch -c new-branch
+
+# same as 'git checkout -- README.md'
+git restore README.md
+
+# same as 'git reset HEAD README.md'
+git restore --staged README.md
+
+# Squash the last N commits together
+git reset --soft HEAD~num_commits && git commit
+
+# [ NODE ]
+
+# kill node process
+ps aux | grep node
+ps -ef | grep node
+
+# easy way with port number
+lsof -i :8080
+kill -9 18253
+
+# [ POSTRESQL ]
+psql -U postgres -d local_test -h localhost -f /Users/burakkirkil/geralt_test_backup.sql
+
+# Restart CoreAudio with the terminal command:
+sudo launchctl kickstart -kp system/com.apple.audio.coreaudiod
+
+# [ MYSQL ]
+mysql -u root -p
+mysql.server start
+mysql.server stop
+CREATE DATABASE db_name;
+DROP DATABASE db_name;
+USE db_name;
+SHOW TABLES;
+INSERT INTO ioi_user_role VALUES ('1', 'Admin', '99ef2260b46774659732992777c0f734', 'Admin');
+
+# rsync example
+rsync -av --progress ~/projects ~/projects_backup --exclude node_modules
+
+
+# restart bluetooth
+sudo pkill bluetoothd
+
+# bluetooth restart with blueutil
+brew install blueutil
+blueutil -p 0 && sleep 1 && blueutil -p 1
