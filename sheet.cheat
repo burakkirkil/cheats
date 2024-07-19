@@ -1,6 +1,6 @@
 % git, node, bluetooth
 
-## [ GIT ]
+; [ GIT ]
 
 # git diff display line changes and file names
 git diff --stat develop
@@ -60,7 +60,7 @@ git reset --mixed HEAD
 # [clear] hard reset
 git reset --hard HEAD
 
-## Clearing branches
+; Clearing branches
 
 # [clear branches] Show Locally Stored Remote Branches non-existent on the remote repo
 git remote prune origin --dry-run
@@ -71,10 +71,19 @@ git remote prune origin
 # [clear branches] Clean-Up Local Old Already Merged Branches
 git branch --merged main | grep -v "\*" | xargs git branch -d
 
+# [clear branches] Clean-Up Local Old Already Merged Branches
+git fetch -p ; git branch -r | awk '{print $1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print $1}' | xargs git branch -d
+
+# [clear branches] Force Delete Clean-Up Local Old Already Merged Branches
+git fetch -p ; git branch -r | awk '{print $1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print $1}' | xargs git branch -D
+
+# [clear branches] Clean-Up Local Old Already Merged Branches
+gfa && gco develop && gl && for branch in $(git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == "[gone]" {sub("refs/heads/", "", $1); print $1}' | egrep -v '\*|master|main|develop|release|demo'); do git branch -d $branch; done
+
 # [clear branches] List unpushed commits https://bit.ly/3Jegpuy
 git log --branches --not --remotes
 
-## Handling Tags https://stackoverflow.com/a/28280404
+; Handling Tags https://stackoverflow.com/a/28280404
 
 # delete the old tag locally
 git tag -d <tagname>
@@ -103,7 +112,7 @@ git restore --staged README.md
 # Squash the last N commits together
 git reset --soft HEAD~num_commits && git commit
 
-## [ NODE ]
+; [ NODE ]
 
 # find node process with ps
 ps aux | grep node
