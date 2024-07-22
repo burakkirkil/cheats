@@ -1,43 +1,47 @@
-% git, node, bluetooth
+% user, git
 
-; [ GIT ]
+; # [ GIT ]
 
-# git diff display line changes and file names
-git diff --stat develop
+# [display] git diff display line changes and file names
+git diff --stat <branch>
 
-# git diff display only file names
-git diff --name-only develop
+# [display] git diff display only file names
+git diff --name-only <branch>
 
-# git display the stats of the changes in a commit
+# [display] git display the stats of the changes in a commit
 git show --stat
 
-git rm --cached path/to/file
-
-# git list ignored files
+# [display] git list ignored files
 git status --ignored
 
-# git search the branch if merged
-git branch --merged main | grep HP-1234
+# [display] git search the branch if merged
+git branch --merged <branch> | grep HP-1234
 
-# git list all the branches
+# [display] git list all the branches
 git branch -a
 
-# git auto stage files and commit with message (It will not stage new (untracked) files)
+# git auto stage files and commit with message (It won't stage new (untracked) files)
 git commit -am "message"
 
-# git --amend --no-edit
+# git --amend
 git commit --amend --no-edit
 
 # git --amend with message
 git commit --amend -m "new message"
 
-# git clean / remove untracked files and directories
-git clean -df
-
-# git amend one liner
+# git amend one liner to the moon baby
 git add . && gca! && ggpush --force
 
-## Clearing Working Tree
+; ## Clearing Working Tree
+
+# undo commit (and keep changes in the staging area)
+git reset --soft HEAD~1
+
+# undo commit (and keep changes in the staging area)
+git reset --soft HEAD^
+
+# Squash the last N commits together
+git reset --soft HEAD~<num_commits> && git commit
 
 # [clear] nuke working tree
 git reset --hard HEAD && git clean -fd
@@ -45,22 +49,16 @@ git reset --hard HEAD && git clean -fd
 # [clear] discard unstaged changes
 git checkout -- .
 
-# [clear] discard untracked files
+# [clear] discard untracked files (remove untracked files and directories)
 git clean -fd
 
-# [clear] soft reset
-git reset --soft HEAD
+# [clear] remove a file from the staging area
+git rm --cached <path_to_file>
 
-# [clear] undo commit (git reset HEAD~)
-git reset --soft HEAD^
+# [clear] remove all files in a directory from the staging area
+git rm --cached -r <directoryname>/
 
-# [clear] mixed reset
-git reset --mixed HEAD
-
-# [clear] hard reset
-git reset --hard HEAD
-
-; Clearing branches
+; ## Clearing branches
 
 # [clear branches] Show Locally Stored Remote Branches non-existent on the remote repo
 git remote prune origin --dry-run
@@ -69,7 +67,7 @@ git remote prune origin --dry-run
 git remote prune origin
 
 # [clear branches] Clean-Up Local Old Already Merged Branches
-git branch --merged main | grep -v "\*" | xargs git branch -d
+git branch --merged <branch> | grep -v "\*" | xargs git branch -d
 
 # [clear branches] Clean-Up Local Old Already Merged Branches
 git fetch -p ; git branch -r | awk '{print $1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print $1}' | xargs git branch -d
@@ -83,7 +81,7 @@ gfa && gco develop && gl && for branch in $(git for-each-ref --format '%(refname
 # [clear branches] List unpushed commits https://bit.ly/3Jegpuy
 git log --branches --not --remotes
 
-; Handling Tags https://stackoverflow.com/a/28280404
+; ## Handling Tags https://stackoverflow.com/a/28280404
 
 # delete the old tag locally
 git tag -d <tagname>
@@ -97,20 +95,21 @@ git tag <tagname> <commitId>
 # push the new local tag to the remote
 git push origin <tagname>
 
-# same as 'git checkout develop'
+; ## New Methods `switch` and `restore`
+
+# [new] same as 'git checkout develop'
 git switch develop
 
-# same as 'git checkout -b new-branch'
-git switch -c new-branch
+# [new] same as 'git checkout -b new-branch'
+git switch -c <new-branch>
 
-# same as 'git checkout -- README.md'
+# [new] same as 'git checkout -- README.md'
 git restore README.md
 
-# same as 'git reset HEAD README.md'
+# [new] same as 'git reset HEAD README.md'
 git restore --staged README.md
 
-# Squash the last N commits together
-git reset --soft HEAD~num_commits && git commit
+$ branch: echo 'develop'
 
 ; [ NODE ]
 
@@ -123,8 +122,10 @@ ps -ef | grep node
 # find node process (easy way) with port number
 lsof -i :8080
 
-# kill a process
+# kill a process (node, etc.)
 kill -9 18253
+
+; [ MISC ]
 
 # Restart CoreAudio with the terminal command:
 sudo launchctl kickstart -kp system/com.apple.audio.coreaudiod
